@@ -130,6 +130,10 @@ function! memolist#new(title)
     return
   endif
 
+  if stridx(items['title'], "$DAY") >= 0
+      let items['title'] = substitute(items['title'], "$DAY", strftime("%Y%m%d"), "g")
+  endif
+
   if get(g:, 'memolist_prompt_tags', 0) != 0
     let items['tags'] = join(split(input("Memo tags: "), '\s'), ' ')
   endif
@@ -172,8 +176,8 @@ let s:default_template = [
 \ 'title: {{_title_}}',
 \ '==========',
 \ 'date: {{_date_}}',
-\ 'tags: [{{_tags_}}]',
-\ 'categories: [{{_categories_}}]',
+\ 'tags: {{_tags_}}',
+\ 'categories: {{_categories_}}',
 \ '- - -',
 \]
 
